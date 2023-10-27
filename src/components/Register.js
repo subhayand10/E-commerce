@@ -1,14 +1,21 @@
+// eslint-disable-next-line
 import { Button, CircularProgress, Stack, TextField } from "@mui/material";
 import { Box } from "@mui/system";
+// eslint-disable-next-line
 import axios from "axios";
 import { useSnackbar } from "notistack";
+// eslint-disable-next-line
 import React, { useState } from "react";
+// eslint-disable-next-line
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
 
 const Register = () => {
+
+  let [loading,setLoading]=useState(false)
+  // eslint-disable-next-line
   const { enqueueSnackbar } = useSnackbar();
 
 
@@ -35,7 +42,31 @@ const Register = () => {
    *      "message": "Username is already taken"
    * }
    */
+  // eslint-disable-next-line
+  let [userName,setUserName]=useState("")
+  let [password,setPassword]=useState("")
+  let [confirmPassword,setconfirmPassword]=useState("")
   const register = async (formData) => {
+
+    console.log(formData)
+    delete formData.confirmPassword
+    console.log(formData)
+    //console.log(config.endpoint)
+    let url=config.endpoint+"/auth/register"
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000);
+    axios.post(url,formData).then((response)=>{
+      console.log(response)
+      enqueueSnackbar("Registered Successfully",{ variant: 'success' })
+    }).catch((error)=>{
+      console.log(error.response)
+      if(error.response && error.response.status === 400)
+        enqueueSnackbar("Username is already taken",{ variant: 'error' })
+      else
+        enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.",{ variant: 'error' })
+    })
   };
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement user input validation logic
@@ -56,8 +87,48 @@ const Register = () => {
    * -    Check that password field is not less than 6 characters in length - "Password must be at least 6 characters"
    * -    Check that confirmPassword field has the same value as password field - Passwords do not match
    */
+  // eslint-disable-next-line
   const validateInput = (data) => {
+    let count=0
+    if(data.username==='')
+      {
+        enqueueSnackbar("Username is a required field",{ variant: 'warning' })
+        count++
+      }
+      else if(data.username.length<6 && data.username!=='')
+      {
+        enqueueSnackbar("Username must be at least 6 characters",{ variant: 'warning' })
+        count++
+      }
+      else if(data.password==='')
+      {
+        enqueueSnackbar("Password is a required field",{ variant: 'warning' })
+        count++
+      }
+      else if(data.password.length<6 && data.password!=='')
+      {
+        enqueueSnackbar("Password must be at least 6 characters",{ variant: 'warning' })
+        count++
+      }
+      else if(data.password!==data.confirmPassword)
+      {
+        enqueueSnackbar("Passwords do not match",{ variant: 'warning' })
+        count++
+      }
+      return count
+    
   };
+
+  let buttonJSX=(
+    <Button className="button" variant="contained" onClick={(e)=>{
+      // e.preventDefault()
+       let count=validateInput({ username: userName, password: password, confirmPassword: confirmPassword})
+       if(count===0)
+         register({ username: userName, password: password, confirmPassword: confirmPassword})
+      }}>
+       Register Now
+      </Button>
+  )
 
   return (
     <Box
@@ -78,7 +149,10 @@ const Register = () => {
             name="username"
             placeholder="Enter Username"
             fullWidth
-          />
+          onChange={(e)=>{
+            //console.log(e.target.value)
+            setUserName(e.target.value)
+          }}/>
           <TextField
             id="password"
             variant="outlined"
@@ -88,6 +162,10 @@ const Register = () => {
             helperText="Password must be atleast 6 characters length"
             fullWidth
             placeholder="Enter a password with minimum 6 characters"
+            onChange={(e)=>{
+              //console.log(e.target.value)
+              setPassword(e.target.value)
+            }}
           />
           <TextField
             id="confirmPassword"
@@ -96,13 +174,15 @@ const Register = () => {
             name="confirmPassword"
             type="password"
             fullWidth
+            onChange={(e)=>{
+              //console.log(e.target.value)
+              setconfirmPassword(e.target.value)
+            }}
           />
-           <Button className="button" variant="contained">
-            Register Now
-           </Button>
+           {loading?<CircularProgress />:buttonJSX}
           <p className="secondary-action">
             Already have an account?{" "}
-             <a className="link" href="#">
+             <a className="link" href="https://www.youtube.com/">
               Login here
              </a>
           </p>
