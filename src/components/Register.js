@@ -1,16 +1,13 @@
-// eslint-disable-next-line
 import { Button, CircularProgress, Stack, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-// eslint-disable-next-line
 import axios from "axios";
 import { useSnackbar } from "notistack";
-// eslint-disable-next-line
 import React, { useState } from "react";
-// eslint-disable-next-line
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
+import { useHistory, Link } from "react-router-dom";
 
 const Register = () => {
 
