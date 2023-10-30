@@ -10,6 +10,7 @@ import "./Register.css";
 import { useHistory, Link } from "react-router-dom";
 
 const Register = () => {
+  const history = useHistory();
 
   let [loading,setLoading]=useState(false)
   // eslint-disable-next-line
@@ -64,6 +65,8 @@ const Register = () => {
       else
         enqueueSnackbar("Something went wrong. Check that the backend is running, reachable and returns valid JSON.",{ variant: 'error' })
     })
+
+    history.push('/login');
   };
 
   // TODO: CRIO_TASK_MODULE_REGISTER - Implement user input validation logic
@@ -116,15 +119,16 @@ const Register = () => {
     
   };
 
+
   let buttonJSX=(
-    <Button className="button" variant="contained" onClick={(e)=>{
-      // e.preventDefault()
-       let count=validateInput({ username: userName, password: password, confirmPassword: confirmPassword})
-       if(count===0)
-         register({ username: userName, password: password, confirmPassword: confirmPassword})
-      }}>
-       Register Now
-      </Button>
+      <Button className="button" variant="contained" onClick={(e)=>{
+        // e.preventDefault()
+        let count=validateInput({ username: userName, password: password, confirmPassword: confirmPassword})
+        if(count===0)
+          register({ username: userName, password: password, confirmPassword: confirmPassword})
+        }}>
+        Register Now
+        </Button>
   )
 
   return (
@@ -179,9 +183,7 @@ const Register = () => {
            {loading?<CircularProgress />:buttonJSX}
           <p className="secondary-action">
             Already have an account?{" "}
-             <a className="link" href="https://www.youtube.com/">
-              Login here
-             </a>
+             <Link to="/login">Login Here</Link>
           </p>
         </Stack>
       </Box>

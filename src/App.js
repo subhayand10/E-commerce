@@ -13,8 +13,13 @@ export const config = {
 function App() {
   return (
     <div className="App">
-          <Register />
+        <Switch>
+          <Route path="/" exact component={Products} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+        </Switch>
     </div>
+    
   );
 }
 
