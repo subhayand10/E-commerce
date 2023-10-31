@@ -1,5 +1,4 @@
 import Register from "./components/Register";
-// eslint-disable-next-line
 import ipConfig from "./ipConfig.json";
 import { Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
