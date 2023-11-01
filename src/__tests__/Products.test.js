@@ -3,7 +3,6 @@ import {
   act,
   render,
   screen,
-  waitFor,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -203,11 +202,10 @@ describe("Products Page", () => {
     });
 
     const cardImages = screen
-    .queryAllByRole("img")
-    .map((image) => image.getAttribute("src"))
-    .filter((src) => src !== null)
-    .filter((src) => src.match(/https/i));
-      
+      .queryAllByRole("img")
+      .map((image) => image.getAttribute("src"))
+      .filter((src) => src !== null)
+      .filter((src) => src.match(/https/i));
 
     const stars = screen
       .queryAllByRole("img")
@@ -215,11 +213,11 @@ describe("Products Page", () => {
       .filter((label) => label !== null)
       .filter((label) => label.match(/stars/i));
 
-    //expect(stars.length).toEqual(2);
+    expect(stars.length).toEqual(2);
     expect(cardImages.length).toEqual(2);
     expect(addToCartBtn.length).toEqual(2);
   });
-  
+
   it("should make a GET request to search", async () => {
     const searchResponse = [
       {
