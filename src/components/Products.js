@@ -2,6 +2,8 @@ import { Search, SentimentDissatisfied } from "@mui/icons-material";
 import {
   CircularProgress,
   Grid,
+  Container,
+  Typography,
   InputAdornment,
   TextField,
 } from "@mui/material";
@@ -13,6 +15,9 @@ import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Products.css";
+import ProductCard from "./ProductCard";
+import { textChangeRangeNewSpan } from "typescript";
+import { SettingsRemoteRounded } from "@mui/icons-material";
 
 // Definition of Data Structures used
 /**
@@ -28,6 +33,14 @@ import "./Products.css";
 
 
 const Products = () => {
+
+  const [products, setProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [found,setFound]=useState(false)
+  const [loading,setLoading]=useState(true)
+  const[text,setText]=useState("")
+  const [timer,setTimer]=useState(null);
+  //const [searchProducts, setSearchProducts] = useState([])
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Fetch products data and store it
   /**
@@ -66,8 +79,30 @@ const Products = () => {
    *      "message": "Something went wrong. Check the backend console for more details"
    * }
    */
-  const performAPICall = async () => {
+   const performAPICall = async () => {
+    let url=config.endpoint+"/products"
+    try
+    {
+      let response=await axios.get(url)
+      setProducts(response.data)
+      setFilteredProducts(response.data)
+    }
+    catch(error)
+    {
+      if(error.response.status===500)
+      {
+        console.log(error.response.data.message)
+      }
+    }
+    finally
+    {
+      setLoading(false)
+    }
   };
+  useEffect(()=>{
+    performAPICall()
+  },[])
+ 
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Implement search logic
   /**
@@ -84,7 +119,25 @@ const Products = () => {
    *
    */
   const performSearch = async (text) => {
+    let url=config.endpoint+`/products/search?value=${text}`
+    try{
+      let response=await axios.get(url)
+      setFilteredProducts(response.data)
+    }
+    catch(error)
+    {
+      setFilteredProducts([])
+    }
   };
+  
+  /*useEffect(()=>{
+    async function sample(){
+      performSearch(text)
+      }
+      sample()
+  },[text])*/
+
+ 
 
   // TODO: CRIO_TASK_MODULE_PRODUCTS - Optimise API calls with debounce search implementation
   /**
@@ -99,11 +152,59 @@ const Products = () => {
    *
    */
   const debounceSearch = (event, debounceTimeout) => {
+    if (debounceTimeout)
+      clearTimeout(debounceTimeout);
+    
+    let timerId = setTimeout(() => performSearch(event.target.value), 500);
+    setTimer(timerId)
+  };
+  const iconButtonStyle = {
+    marginLeft: '80px', // Adjust the padding as needed
   };
 
+  const productGridJsx= filteredProducts.length?(
+          <Grid container spacing={2}>
+            { filteredProducts.map((ele) => {
+              return (
+                  <Grid item lg={4} md={4} sm={6} xs={6} mt={2} mb={2} key={ele['_id']} >
+                    <ProductCard  product={ele} />
+                  </Grid>
+              );
+            }) }
+            </Grid>
+        ):(<Container
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <Box>
+            <SentimentDissatisfied style={iconButtonStyle} />
+            <Typography variant="h5" gutterBottom>
+              No products found
+            </Typography>
+          </Box>
+        </Container>)
 
-
-
+  const loadingGridJsx=(
+    <Container
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <Box>
+        <CircularProgress />
+        <Typography variant="h5" gutterBottom>
+          Loading Products...
+        </Typography>
+      </Box>
+    </Container>
+  )
 
 
 
@@ -111,7 +212,24 @@ const Products = () => {
     <div>
       <Header>
         {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
-
+        <TextField
+        className="search-desktop"
+        size="small"
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <Search color="primary" />
+            </InputAdornment>
+          ),
+        }}
+        placeholder="Search for items/categories"
+        name="search"
+        value={text}
+      onChange={(e)=>{
+        setText(e.target.value)
+        debounceSearch(e,timer)
+      }} />
       </Header>
 
       {/* Search view for mobiles */}
@@ -128,7 +246,13 @@ const Products = () => {
         }}
         placeholder="Search for items/categories"
         name="search"
+        value={text}
+        onChange={(e)=>{
+          setText(e.target.value)
+          debounceSearch(e,timer)
+        }}
       />
+       
        <Grid container>
          <Grid item className="product-grid">
            <Box className="hero">
@@ -139,6 +263,8 @@ const Products = () => {
            </Box>
          </Grid>
        </Grid>
+      {loading?loadingGridJsx:productGridJsx}
+       
       <Footer />
     </div>
   );

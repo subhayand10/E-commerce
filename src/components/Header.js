@@ -1,9 +1,10 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Avatar, Button, Stack } from "@mui/material";
+import { Avatar, Button, Stack,InputAdornment,TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import React from "react";
 import "./Header.css";
 import {Link} from "react-router-dom"
+import { Search } from "@mui/icons-material"
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
   let user=localStorage.getItem("username")
@@ -31,6 +32,7 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
         <Box className="header-title">
             <img src="logo_light.svg" alt="QKart-icon"></img>
         </Box>
+        {children}
         <div>
           <img src="avatar.png" alt="/crio.do/i"></img>
           <Button variant="text">
@@ -55,6 +57,7 @@ const Header = ({ children, hasHiddenAuthButtons }) => {
         <Box className="header-title">
             <img src="logo_light.svg" alt="QKart-icon"></img>
         </Box>
+        {children}
         <div>
           <Link to="/login">
             <Button variant="text">
