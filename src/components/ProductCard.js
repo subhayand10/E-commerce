@@ -1,26 +1,19 @@
 import { AddShoppingCartOutlined } from "@mui/icons-material";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Rating,
-  Typography,
-  CardActionArea
-} from "@mui/material";
-import React from "react";
+import {Button,Card,CardActions,CardContent,CardMedia,CardActionArea,Rating,Typography,} from "@mui/material";import React from "react";
 import "./ProductCard.css";
 
 const ProductCard = ({ product, handleAddToCart }) => {
   const {name,cost,rating,image,_id}=product;
+// function pushToCart(e){
+//   console.log(e.target.value)
+// }
   return (
     <Card  className="card" sx={{maxWidth:385}}>
       <CardActionArea>
               <CardMedia
                 component="img"
                 height="240"
-                src={image}
+                image={image}
                 alt={name}
               />
               <CardContent>

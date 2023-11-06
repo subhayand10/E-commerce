@@ -1,82 +1,54 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Avatar, Button, Stack,InputAdornment,TextField } from "@mui/material";
+import { Avatar, Button, Stack } from "@mui/material";
+import {useHistory} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import React from "react";
 import "./Header.css";
-import {Link} from "react-router-dom"
-import { Search } from "@mui/icons-material"
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
-  let user=localStorage.getItem("username")
-  console.log(user)
-  let defaultJSX=(
-    <Box className="header">
-        <Box className="header-title">
-            <img src="logo_light.svg" alt="QKart-icon"></img>
-        </Box>
-        <Link to="/">
-          <Button
-            className="explore-button"
-            startIcon={<ArrowBackIcon />}
-            variant="text"
-          >
-            Back to explore
-          </Button>
-        </Link>
-      </Box>
+  let history=useHistory();
+  
+  let userName=localStorage.getItem("username");
 
-  );
 
-  let loggedInHeader=(
-    <Box className="header">
-        <Box className="header-title">
-            <img src="logo_light.svg" alt="QKart-icon"></img>
-        </Box>
-        {children}
-        <div>
-          <img src="avatar.png" alt="/crio.do/i"></img>
-          <Button variant="text">
-            {user}
-          </Button>
-          <Link to="/">
-            <Button variant="text" onClick={()=>{
-              localStorage.removeItem("username")
-              localStorage.removeItem("balance")
-              localStorage.removeItem("token")
-              window.location.reload()
-            }}>
-              LOGOUT
-            </Button>
-          </Link>
-          </div>
-      </Box>
-  );
+const clear=()=>{
+  localStorage.clear();
+  window.location.reload();
+}
 
-  let notLoggedInHeader=(
-    <Box className="header">
-        <Box className="header-title">
-            <img src="logo_light.svg" alt="QKart-icon"></img>
-        </Box>
-        {children}
-        <div>
-          <Link to="/login">
-            <Button variant="text">
-              LOGIN
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button variant="text">
-              REGISTER
-            </Button>
-          </Link>
-          </div>
-      </Box>
-  );
-  console.log(hasHiddenAuthButtons)
+
     return (
-      <>
-      {hasHiddenAuthButtons?  (defaultJSX)  : (localStorage.getItem("username")?loggedInHeader:notLoggedInHeader) } 
-      </>
+      <Box className="header">
+      <Box className="header-title">
+            <img src="logo_light.svg" alt="QKart-icon"></img>
+        </Box>
+        {children}
+      {hasHiddenAuthButtons?(
+        <Button
+          className="explore-button"
+          startIcon={<ArrowBackIcon />}
+          variant="text"
+          onClick={(e)=>{history.push("/")}}
+        >
+          Back to explore
+        </Button>
+      ):(userName?(
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Avatar alt={userName}  src="/public/avatar.png" />
+          <p> {userName}</p>
+          <Button  variant="contained"
+          onClick={clear}
+          >LOGOUT</Button></Stack>
+        ):(
+          <Stack direction="row" spacing={2}>
+            <Button  variant="contained"
+              onClick={(e)=>{history.push("/login")}}
+            >LOGIN</Button>
+          <Button  variant="contained" onClick={(e)=>{history.push("/register")}}>REGISTER</Button>
+          </Stack>)
+          )}
+     </Box>
+     
     );
 };
 
