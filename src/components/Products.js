@@ -294,13 +294,28 @@ const addToCart = async (token, items,products,productId,qty,options = { prevent
       else {
             // udpate only quantity
             // items.qty++
+            /*items.forEach(async(item)=>{
+              if(item['productId']===productId)
+              {
+                if(options.preventDuplicate==='handleAdd'){
+                  item['qty']++;
+                }
+                else{
+                  item['qty']--;
+                }
+                let url=config.endpoint+'/cart';
+                let res=await axios.post(url,{"productId":productId,"qty":item["qty"]},{headers:{Authorization:`Bearer ${token}`}});
+                const cartData=await generateCartItemsFrom(res.data,products)
+                updateCartData(cartData);
+              }
+            })*/
             let index;
             for(let i=0;i<items.length;i++){
               if(items[i]['productId']===productId){
                 index=i;
               }
             }
-            if(options.preventDuplicate==='handleAdd'){
+           if(options.preventDuplicate==='handleAdd'){
               items[index]['qty']++;
             }
             else{
@@ -319,7 +334,7 @@ let addItems=(e)=>{
   if(!userLoggedIn){
     enqueueSnackbar("Login to add an item to the Cart",{variant:"warning"}) }
   else {
-    let result=isItemInCart(cartData,e.target.value)
+    let result=isItemInCart(userCartItems,e.target.value)
     if(!result){
       addToCart(userToken,userCartItems,productData,e.target.value,1,{preventDuplicate: true});
     }else{
