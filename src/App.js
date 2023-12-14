@@ -3,10 +3,11 @@ import Product from "./components/Products";
 import Login from "./components/Login";
 import Checkout from "./components/Checkout";
 import {Switch,Route} from "react-router-dom";
-import ipConfig from "./ipConfig.json";
+//import ipConfig from "./ipConfig.json";
 
 export const config = {
-  endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
+  // endpoint: `http://${ipConfig.workspaceIp}:8082/api/v1`,
+  endpoint: `https://qkart-frontend-6qwi.onrender.com/api/v1`,
 };
 
 function App() {
