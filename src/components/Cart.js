@@ -67,6 +67,7 @@ export const generateCartItemsFrom = (cartData, productsData) => {
     //   console.log(value)
     //   cartItems.push(value)
     // }
+   // console.log(cartItems)
     return cartItems;
 };
 

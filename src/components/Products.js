@@ -233,8 +233,9 @@ const Products = () => {
 const isItemInCart = (items, productId) => {
   // items is whole data array
   for(let i=0;i<items.length;i++){
-    // console.log(items[i])
+       console.log(items[i], productId);
       if(items[i]['_id']===productId){
+        console.log("ALREADY IN CART")
         enqueueSnackbar('Item already in cart. Use the cart sidebar to update quantity or remove item.',{variant:"warning"});
         return true;
       }
@@ -286,6 +287,13 @@ const addToCart = async (token, items,products,productId,qty,options = { prevent
             let res=await axios.post(url,{"productId":productId,"qty":qty},{headers:{Authorization:`Bearer ${token}`}});
             const cartData=await generateCartItemsFrom(res.data,products)
             updateCartData(cartData);
+            
+            //
+             const cartItems = await fetchCart(token);
+             updateUserCartItems(cartItems);
+             //
+            console.log(cartData)
+            console.log(items);
 
         }catch(e){
           console.log(e)
@@ -334,7 +342,9 @@ let addItems=(e)=>{
   if(!userLoggedIn){
     enqueueSnackbar("Login to add an item to the Cart",{variant:"warning"}) }
   else {
-    let result=isItemInCart(userCartItems,e.target.value)
+    // let result=isItemInCart(userCartItems,e.target.value)
+    let result = isItemInCart(cartData, e.target.value);
+    console.log(result)
     if(!result){
       addToCart(userToken,userCartItems,productData,e.target.value,1,{preventDuplicate: true});
     }else{
