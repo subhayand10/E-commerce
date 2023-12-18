@@ -171,7 +171,7 @@ const Login = () => {
            className="button" 
            variant="contained"
            onClick={evenHandler}
-           >LOGIN TO QKART</Button>
+           >LOGIN</Button>
            <p className="secondary-action">
            Don’t have an account?{" "}
             <Link to="/register" className={"link"}>Register now</Link>
