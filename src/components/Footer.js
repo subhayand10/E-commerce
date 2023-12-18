@@ -6,10 +6,10 @@ const Footer = () => {
   return (
     <Box className="footer">
       <Box>
-        <img src="logo_dark.svg" alt="QKart-icon"></img>
+        <h2>Shop-Sub</h2>
       </Box>
       <p className="footer-text">
-        QKart is your one stop solution to the buy the latest trending items
+        Shop-Sub is your one stop solution to the buy the latest trending items
         with India's Fastest Delivery to your doorstep
       </p>
     </Box>

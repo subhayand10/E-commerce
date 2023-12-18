@@ -183,7 +183,7 @@ const Register = () => {
           {loader ?<Box sx={{ display: 'flex',justifyContent:"center" }}>
                     <CircularProgress />
                    </Box>
-                  :<Button onClick={eventHandler}  className="button" variant="contained">
+                  :<Button onClick={eventHandler}  id="button" variant="contained">
             Register Now
            </Button>
            }

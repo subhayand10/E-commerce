@@ -151,55 +151,50 @@ function DisplayCartItems(props){
   const {image,name,cost,quantity,"_id":id}=props.items;
   
   return (
-    
     <Box display="flex" alignItems="flex-start" padding="1rem">
-        <Box className="image-container">
-            <img
-                // Add product image
-                src={image}
-                // Add product name as alt eext
-                alt={name}
-                width="100%"
-                height="100%"
+      <Box className="image-container">
+        <img
+          // Add product image
+          src={image}
+          // Add product name as alt eext
+          alt={name}
+          width="100%"
+          height="100%"
+        />
+      </Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        height="6rem"
+        paddingX="1rem"
+        style={{ color: "burlywood" }}
+      >
+        <div>
+          <h3>{name}</h3>
+        </div>
+        {/* Add product name */}
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          {!props.isReadOnly ? (
+            <ItemQuantity
+              value={quantity}
+              handleAdd={props.buttonClick}
+              handleDelete={props.buttonClick}
+              productId={id}
+              // Add required props by checking implementation
             />
+          ) : (
+            <Box>Qty:{quantity}</Box>
+          )}
+
+          <Box padding="0.5rem" fontWeight="700">
+            ${cost}
+            {/* Add product cost */}
+          </Box>
         </Box>
-        <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="space-between"
-            height="6rem"
-            paddingX="1rem"
-        >
-            <div>{name}</div>
-            {/* Add product name */}
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-            >
-              {
-                !props.isReadOnly?
-                    <ItemQuantity
-                    value={quantity}
-                    handleAdd={props.buttonClick}
-                    handleDelete={props.buttonClick}
-                    productId={id}
-                  // Add required props by checking implementation
-                  />
-                  :
-                  <Box>
-                    Qty:{quantity}
-                  </Box>
-              }
-            
-            <Box padding="0.5rem" fontWeight="700">
-                ${cost}
-                {/* Add product cost */}
-            </Box>
-            </Box>
-        </Box>
+      </Box>
     </Box>
-  )
+  );
 }
 
 
@@ -220,17 +215,25 @@ const Cart = ({products,items = [],handleQuantity,isReadOnly}) => {
 
   return (
     <>
-      <Box className="cart" >
+      <Box className="cart">
         {/* TODO: CRIO_TASK_MODULE_CART - Display view for each cart item with non-zero quantity */}
 
-          {
-            items.map((values)=>{
-                 return (isReadOnly ? (<DisplayCartItems isReadOnly items={values} buttonClick={handleQuantity} key={values['_id']}/>)
-                :(<DisplayCartItems  items={values} buttonClick={handleQuantity} key={values['_id']}/>)
-              )
-            }
-            )
-          }
+        {items.map((values) => {
+          return isReadOnly ? (
+            <DisplayCartItems
+              isReadOnly
+              items={values}
+              buttonClick={handleQuantity}
+              key={values["_id"]}
+            />
+          ) : (
+            <DisplayCartItems
+              items={values}
+              buttonClick={handleQuantity}
+              key={values["_id"]}
+            />
+          );
+        })}
 
         <Box
           padding="1rem"
@@ -238,11 +241,11 @@ const Cart = ({products,items = [],handleQuantity,isReadOnly}) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box color="#3C3C3C" alignSelf="center">
+          <Box color="burlywood" alignSelf="center">
             Order total
           </Box>
           <Box
-            color="#3C3C3C"
+            color="burlywood"
             fontWeight="700"
             fontSize="1.5rem"
             alignSelf="center"
@@ -251,23 +254,26 @@ const Cart = ({products,items = [],handleQuantity,isReadOnly}) => {
             ${getTotalCartValue(items)}
           </Box>
         </Box>
-        
-          <Box display="flex" justifyContent="flex-end" className="cart-footer">
-            {
-              // console.log(window.location.pathname)
-              window.location.pathname==="/checkout"?
-                  <></>
-                  :
-                  <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={(e)=>{history.push('/checkout')}}
-                  className="checkout-btn"
-                  >
-                  Checkout
-                  </Button>
-            }
-          </Box>  
+
+        <Box display="flex" justifyContent="flex-end" className="cart-footer">
+          {
+            // console.log(window.location.pathname)
+            window.location.pathname === "/checkout" ? (
+              <></>
+            ) : (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={(e) => {
+                  history.push("/checkout");
+                }}
+                className="checkout-btn"
+              >
+                Checkout
+              </Button>
+            )
+          }
+        </Box>
       </Box>
     </>
   );

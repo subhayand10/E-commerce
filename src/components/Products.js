@@ -364,23 +364,27 @@ const onButtonClick=(id,handle)=>{
 
   return (
     <div>
-      <Header  hasHiddenAuthButtons={false}>
+      <Header hasHiddenAuthButtons={false}>
         {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
         <TextField
-        className="search-desktop"
-        size="small"
-        onChange={(e)=>{debounceSearch(e.target.value,timerId)}}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Search color="primary" />
-            </InputAdornment>
-          ),
-        }}
-        placeholder="Search for items/categories"
-        name="search"
-      />
-
+          className="search-desktop"
+          size="small"
+          onChange={(e) => {
+            debounceSearch(e.target.value, timerId);
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Search color="primary" />
+              </InputAdornment>
+            ),
+            style: {
+              color: "burlywood", // Change this to your desired color
+            },
+          }}
+          placeholder="Search for items/categories"
+          name="search"
+        />
       </Header>
 
       {/* Search view for mobiles */}
@@ -388,7 +392,9 @@ const onButtonClick=(id,handle)=>{
         className="search-mobile"
         size="small"
         fullWidth
-        onChange={(e)=>{debounceSearch(e.target.value,timerId)}}
+        onChange={(e) => {
+          debounceSearch(e.target.value, timerId);
+        }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -400,58 +406,88 @@ const onButtonClick=(id,handle)=>{
         name="search"
       />
 
-       <Grid container justifyContent="center" >
-         <Grid item className="product-grid">
-           <Box className="hero">
-             <p className="hero-heading">
-               India’s <span className="hero-highlight">FASTEST DELIVERY</span>{" "}
-               to your door step
-             </p>
-           </Box>
-         </Grid>
-       </Grid>
+      <Grid container justifyContent="center">
+        <Grid item className="product-grid">
+          <Box className="hero">
+            <p className="hero-heading">
+              India’s <span className="hero-highlight">FASTEST DELIVERY</span>{" "}
+              to your door step
+            </p>
+          </Box>
+        </Grid>
+      </Grid>
 
-      
-      {
-        isFetching?<div className={"loading"}>
-                      <CircularProgress />
-                      <h3>Loading Products</h3>
-                    </div>
-                  : !productNotFound?
-                  <>
-                  {
-                    !userLoggedIn?
-                    <Grid container >
-                    <Grid container spacing={{ xs: 2, md: 3 ,lg:1 }} >
-                      {productData.map((x)=>
-                         (<Grid item lg={3} md={6} sm={6} xs={6} mt={2} mb={2} key={x['_id']}  >
-                          <ProductCard product={x} handleAddToCart={(e)=>{addItems(e)}}/>
-                        </Grid>
-                        )
-                        )}
-                    </Grid>
-                  </Grid>:
-                        <Grid container  >
-                        <Grid container spacing={{ xs: 2, md: 3 ,lg:1 }} md={9} >
-                          {productData.map((x)=>
-                             (<Grid item lg={4} md={4} sm={6} xs={6} mt={2} mb={2} key={x['_id']}  >
-                              <ProductCard product={x} handleAddToCart={(e)=>{addItems(e)}}/>
-                            </Grid>
-                            )
-                            )}
-                        </Grid>
-                        <Grid md={3} sm={12} xs={12} sx={{backgroundColor:'#E9F5E1'}} >
-                           <Cart product={productData} items={cartData} handleQuantity={onButtonClick}  />
-                           {/* handleQuantity={onButtonClick} */}
-                        </Grid>
-                      </Grid>
-                  }
-                  </>
-                    :<div className={"loading"}>
-                    <SentimentDissatisfied/>
-                    <h3>No products found</h3>
-                  </div>          
-      }
+      {isFetching ? (
+        <div className={"loading"}>
+          <CircularProgress />
+          <h3>Loading Products</h3>
+        </div>
+      ) : !productNotFound ? (
+        <>
+          {!userLoggedIn ? (
+            <Grid container>
+              <Grid container spacing={{ xs: 2, md: 3, lg: 1 }}>
+                {productData.map((x) => (
+                  <Grid
+                    item
+                    lg={3}
+                    md={6}
+                    sm={6}
+                    xs={6}
+                    mt={2}
+                    mb={2}
+                    key={x["_id"]}
+                  >
+                    <ProductCard
+                      product={x}
+                      handleAddToCart={(e) => {
+                        addItems(e);
+                      }}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          ) : (
+            <Grid container>
+              <Grid container spacing={{ xs: 2, md: 3, lg: 1 }} md={9}>
+                {productData.map((x) => (
+                  <Grid
+                    item
+                    lg={4}
+                    md={4}
+                    sm={6}
+                    xs={6}
+                    mt={2}
+                    mb={2}
+                    key={x["_id"]}
+                  >
+                    <ProductCard
+                      product={x}
+                      handleAddToCart={(e) => {
+                        addItems(e);
+                      }}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+              <Grid md={3} sm={12} xs={12} sx={{ backgroundColor: "#808080" }}>
+                <Cart
+                  product={productData}
+                  items={cartData}
+                  handleQuantity={onButtonClick}
+                />
+                {/* handleQuantity={onButtonClick} */}
+              </Grid>
+            </Grid>
+          )}
+        </>
+      ) : (
+        <div className={"loading"}>
+          <SentimentDissatisfied />
+          <h3>No products found</h3>
+        </div>
+      )}
       <Footer />
     </div>
   );

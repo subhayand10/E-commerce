@@ -29,7 +29,7 @@
 .link {
   font-weight: 700;
   text-decoration: none;
-  color: #45c09f;
+  color: burlywood !important;
 }
 
 .link:focus {
@@ -45,12 +45,9 @@
 }
 
 .button {
-    background-color: #00a278 !important;
+    background-color: #808080 !important;
 }
 
-.button:hover {
-    background-color: #00845c !important;
-}
 
 @media screen and (min-width: 768px) {
   .form {

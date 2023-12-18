@@ -20,7 +20,8 @@ const clear=()=>{
     return (
       <Box className="header">
       <Box className="header-title">
-            <img src="logo_light.svg" alt="QKart-icon"></img>
+            {/* <img src="" alt="QKart-icon"></img> */}
+            <h3 >Shop-Sub</h3>
         </Box>
         {children}
       {hasHiddenAuthButtons?(
@@ -35,7 +36,7 @@ const clear=()=>{
       ):(userName?(
         <Stack direction="row" spacing={2} alignItems="center">
           <Avatar alt={userName}  src="/public/avatar.png" />
-          <p> {userName}</p>
+          <h4> {userName}</h4>
           <Button  variant="contained"
           onClick={clear}
           >LOGOUT</Button></Stack>

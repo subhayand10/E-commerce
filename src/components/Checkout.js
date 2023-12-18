@@ -470,10 +470,10 @@ const Checkout = () => {
       <Grid container>
         <Grid item xs={12} md={9}>
           <Box className="shipping-container" minHeight="100vh">
-            <Typography color="#3C3C3C" variant="h4" my="1rem">
+            <Typography color="burlywood" variant="h4" my="1rem">
               Shipping
             </Typography>
-            <Typography color="#3C3C3C" my="1rem">
+            <Typography color="burlywood" my="1rem">
               Manage all the shipping addresses you want. This way you won't
               have to enter the shipping address manually with every order.
               Select the address you want to get your order delivered.
@@ -481,65 +481,73 @@ const Checkout = () => {
             <Divider />
             <Box>
               {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Display list of addresses and corresponding "Delete" buttons, if present, of which 1 can be selected */}
-                
 
-              {
-                addresses.all.length!==0?
-                      (addresses.all.map((add)=>
-                          // console.log(add["address"])
-                          {if(addresses.selected === add["_id"])
-                            classname = "address-item selected"
-                          else
-                            classname = "address-item not-selected"
-                         return ( <div className={classname} onClick={(e)=>{setAddresses({...addresses,selected:add["_id"]})}}  key={add["_id"]}>
-                            <p my="1rem" >{add["address"]}</p>
-                            <Button 
-                              startIcon={<Delete />} 
-                              id={add["_id"]}
-                              onClick={(e)=>{deleteAddress(token,e.target.id)}}
-                              >
-                                Delete
-                            </Button>
-                          </div>)
-                          }
-                      ))
-                  :
-                  (<Typography my="1rem">
-                    No addresses found for this account. Please add one to proceed
-                  </Typography>)
-              }
+              {addresses.all.length !== 0 ? (
+                addresses.all.map((add) =>
+                  // console.log(add["address"])
+                  {
+                    if (addresses.selected === add["_id"])
+                      classname = "address-item selected";
+                    else classname = "address-item not-selected";
+                    return (
+                      <div
+                        className={classname}
+                        onClick={(e) => {
+                          setAddresses({ ...addresses, selected: add["_id"] });
+                        }}
+                        key={add["_id"]}
+                      >
+                        <p my="1rem">{add["address"]}</p>
+                        <Button
+                          startIcon={<Delete />}
+                          id={add["_id"]}
+                          onClick={(e) => {
+                            deleteAddress(token, e.target.id);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    );
+                  }
+                )
+              ) : (
+                <Typography my="1rem">
+                  No addresses found for this account. Please add one to proceed
+                </Typography>
+              )}
             </Box>
 
             {/* TODO: CRIO_TASK_MODULE_CHECKOUT - Dislay either "Add new address" button or the <AddNewAddressView> component to edit the currently selected address */}
-            
-            {
-              newAddress.isAddingNewAddress===false?
-                (
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      id="add-new-btn"
-                      size="large"
-                      onClick={() => {
-                        setNewAddress((currNewAddress) => ({
-                          ...currNewAddress,
-                          isAddingNewAddress: true,
-                        }));
-                      }}
-                     >
-                     Add new address
-                    </Button>
-                )
-                :
-                (
-                  <AddNewAddressView token={token} newAddress={newAddress} handleNewAddress={setNewAddress} addAddress={addAddress} />
-                )
-            }
-            
-            <Typography color="#3C3C3C" variant="h4" my="1rem">
+
+            {newAddress.isAddingNewAddress === false ? (
+              <Button
+                color="primary"
+                variant="contained"
+                id="add-new-btn"
+                size="large"
+                onClick={() => {
+                  setNewAddress((currNewAddress) => ({
+                    ...currNewAddress,
+                    isAddingNewAddress: true,
+                  }));
+                }}
+              >
+                Add new address
+              </Button>
+            ) : (
+              <AddNewAddressView
+                token={token}
+                newAddress={newAddress}
+                handleNewAddress={setNewAddress}
+                addAddress={addAddress}
+              />
+            )}
+
+            <Typography color="burlywood" variant="h4" my="1rem">
               Payment
             </Typography>
-            <Typography color="#3C3C3C" my="1rem">
+            <Typography color="burlywood" my="1rem">
               Payment Method
             </Typography>
             <Divider />
@@ -555,40 +563,45 @@ const Checkout = () => {
             <Button
               startIcon={<CreditCard />}
               variant="contained"
-              onClick={(e)=>{performCheckout(token,items,addresses)}}
+              onClick={(e) => {
+                performCheckout(token, items, addresses);
+              }}
             >
               PLACE ORDER
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3} bgcolor="#E9F5E1">
+        <Grid item xs={12} md={3} bgcolor="#808080">
           <Cart isReadOnly products={products} items={items} />
           <Box className="cart" p={1}>
             <h2>Order Details</h2>
-            <table  >
-            <tr>
-              <td>Products</td>
-              <td>{getTotalItems(items)}</td>
-            </tr>
-            <tr>
-              <td>SubTotal</td>
-              <td>${getTotalCartValue(items)}</td>
-            </tr>
-            <tr>
-              <td>Shipping Charges</td>
-              <td>$0</td>
-            </tr>
-            <tr>
-              <td><h3>Total</h3></td>
-              <td><h3>${getTotalCartValue(items)}</h3></td>
-            </tr>
-          </table>
+            <table style={{ color: "burlywood" }}>
+              <tr>
+                <td>Products</td>
+                <td>{getTotalItems(items)}</td>
+              </tr>
+              <tr>
+                <td>SubTotal</td>
+                <td>${getTotalCartValue(items)}</td>
+              </tr>
+              <tr>
+                <td>Shipping Charges</td>
+                <td>$0</td>
+              </tr>
+              <tr>
+                <td>
+                  <h3>Total</h3>
+                </td>
+                <td>
+                  <h3>${getTotalCartValue(items)}</h3>
+                </td>
+              </tr>
+            </table>
           </Box>
         </Grid>
       </Grid>
       <Footer />
-    </>     
-    
+    </>
   );
 };
 

@@ -20,7 +20,7 @@
 }
 
 .hero-heading {
-  color: #fff;
+  color: black !important;
   font-size: 1.5rem;
   width: 80%;
   position: relative;
@@ -30,7 +30,7 @@
 .hero-highlight {
   color: #212121;
   font-weight: 700;
-  background: #ffb825;
+  background: burlywood ;
   border-radius: 5px;
   padding: 0.2rem;
 }
