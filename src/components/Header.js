@@ -20,7 +20,6 @@ const clear=()=>{
     return (
       <Box className="header">
       <Box className="header-title">
-            {/* <img src="" alt="QKart-icon"></img> */}
             <h3 >Shop-Sub</h3>
         </Box>
         {children}
