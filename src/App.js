@@ -7,7 +7,7 @@ import Thanks from "./components/Thanks";
 //import ipConfig from "./ipConfig.json";
 
 export const config = {
-  endpoint: `https://qkart-frontend-6qwi.onrender.com/api/v1`,
+  endpoint: `https://qkart-frontend-6qwi.onrender.com/api/v1`
 };
 
 function App() {
