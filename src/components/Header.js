@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import React from "react";
 import "./Header.css";
+import logo from "../assets/logo.png";
 
 const Header = ({ children, hasHiddenAuthButtons }) => {
   let history=useHistory();
@@ -19,36 +20,53 @@ const clear=()=>{
 
     return (
       <Box className="header">
-      <Box className="header-title">
-            <h3 >Shop-Sub</h3>
+        <Box className="header-title ">
+          <div className="w-4">
+            <img src={logo} alt="logo" className="w-4" />
+          </div>
+          <h3>Shop-Sub</h3>
         </Box>
         {children}
-      {hasHiddenAuthButtons?(
-        <Button
-          className="explore-button"
-          startIcon={<ArrowBackIcon />}
-          variant="text"
-          onClick={(e)=>{history.push("/")}}
-        >
-          Back to explore
-        </Button>
-      ):(userName?(
-        <Stack direction="row" spacing={2} alignItems="center">
-          <Avatar alt={userName}  src="/public/avatar.png" />
-          <h4> {userName}</h4>
-          <Button  variant="contained"
-          onClick={clear}
-          >LOGOUT</Button></Stack>
-        ):(
+        {hasHiddenAuthButtons ? (
+          <Button
+            className="explore-button"
+            startIcon={<ArrowBackIcon />}
+            variant="text"
+            onClick={(e) => {
+              history.push("/");
+            }}
+          >
+            Back to explore
+          </Button>
+        ) : userName ? (
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Avatar alt={userName} src="/public/avatar.png" />
+            <h4> {userName}</h4>
+            <Button variant="contained" onClick={clear}>
+              LOGOUT
+            </Button>
+          </Stack>
+        ) : (
           <Stack direction="row" spacing={2}>
-            <Button  variant="contained"
-              onClick={(e)=>{history.push("/login")}}
-            >LOGIN</Button>
-          <Button  variant="contained" onClick={(e)=>{history.push("/register")}}>REGISTER</Button>
-          </Stack>)
-          )}
-     </Box>
-     
+            <Button
+              variant="contained"
+              onClick={(e) => {
+                history.push("/login");
+              }}
+            >
+              LOGIN
+            </Button>
+            <Button
+              variant="contained"
+              onClick={(e) => {
+                history.push("/register");
+              }}
+            >
+              REGISTER
+            </Button>
+          </Stack>
+        )}
+      </Box>
     );
 };
 

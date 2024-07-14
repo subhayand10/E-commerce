@@ -438,12 +438,12 @@ const onButtonClick=(id,handle)=>{
                     mb={2}
                     key={x["_id"]}
                   >
-                    <ProductCard
-                      product={x}
-                      handleAddToCart={(e) => {
-                        addItems(e);
-                      }}
-                    />
+                      <ProductCard
+                        product={x}
+                        handleAddToCart={(e) => {
+                          addItems(e);
+                        }}
+                      />
                   </Grid>
                 ))}
               </Grid>
