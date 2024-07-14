@@ -365,7 +365,6 @@ const onButtonClick=(id,handle)=>{
   return (
     <div>
       <Header hasHiddenAuthButtons={false}>
-        {/* TODO: CRIO_TASK_MODULE_PRODUCTS - Display search bar in the header for Products page */}
         <TextField
           className="search-desktop"
           size="small"
@@ -379,7 +378,7 @@ const onButtonClick=(id,handle)=>{
               </InputAdornment>
             ),
             style: {
-              color: "burlywood", // Change this to your desired color
+              color: "burlywood", 
             },
           }}
           placeholder="Search for items/categories"
