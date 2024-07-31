@@ -16,6 +16,7 @@ import Header from "./Header";
 import "./Products.css";
 import ProductCard from "./ProductCard";
 import Cart,{generateCartItemsFrom} from "./Cart";
+import { Oval } from "react-loader-spinner";
 
 // Definition of Data Structures used
 /**
@@ -378,7 +379,7 @@ const onButtonClick=(id,handle)=>{
               </InputAdornment>
             ),
             style: {
-              color: "burlywood", 
+              color: "burlywood",
             },
           }}
           placeholder="Search for items/categories"
@@ -418,7 +419,16 @@ const onButtonClick=(id,handle)=>{
 
       {isFetching ? (
         <div className={"loading"}>
-          <CircularProgress />
+          {/* <CircularProgress /> */}
+          <Oval
+            visible={true}
+            height="80"
+            width="80"
+            color="rgb(221, 182, 131)"
+            ariaLabel="oval-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
           <h3>Loading Products</h3>
         </div>
       ) : !productNotFound ? (
@@ -437,12 +447,12 @@ const onButtonClick=(id,handle)=>{
                     mb={2}
                     key={x["_id"]}
                   >
-                      <ProductCard
-                        product={x}
-                        handleAddToCart={(e) => {
-                          addItems(e);
-                        }}
-                      />
+                    <ProductCard
+                      product={x}
+                      handleAddToCart={(e) => {
+                        addItems(e);
+                      }}
+                    />
                   </Grid>
                 ))}
               </Grid>
